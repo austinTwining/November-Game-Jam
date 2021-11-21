@@ -8,11 +8,10 @@ public class Player : MonoBehaviour
     public static int deckSize = 4;
     public int health = 8;
     public int stamina = 8;
-    public GameObject[] deck = new GameObject[deckSize];
-    public GameObject[] hand = new GameObject[handSize];
+    public List<GameObject> deck = new List<GameObject>();
+    public List<GameObject> hand = new List<GameObject>();
 
     public bool isStunned = false;
-    public bool isCurrent = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,50 +26,50 @@ public class Player : MonoBehaviour
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            for(int i = 0; i < deckSize; i++){
-                if (hit.collider == deck[i].GetComponent<BoxCollider2D>()){
-                    addCardToHand(deck[i]);
+            for(int i = 0; i < deck.Count; i++){
+                if(hit.collider == deck[i].GetComponent<BoxCollider2D>()){
+                    if(hand.Count < handSize){
+                        hand.Add(Instantiate(deck[i]));
+                        Destroy(deck[i]);
+                        deck.RemoveAt(i);
+                    }
+                    
                 }
             }
-            for(int i = 0; i < handSize; i++){
+            for(int i = 0; i < hand.Count; i++){
                 if (hit.collider == hand[i].GetComponent<BoxCollider2D>()){
-                    removeCardFromHand(i);
+                    deck.Add(Instantiate(hand[i]));
+                    Destroy(hand[i]);
+                    hand.RemoveAt(i);
+                    ShowDeck();
                 }
             }
         }
 
-        foreach(var card in hand){
-            card.transform.position = new Vector3(0,0,0);
+        for(int i = 0; i < hand.Count; i++){
+            if(hand[i]) hand[i].transform.position = new Vector3((i*2) - 1, 0, 0);
         }
     }
 
     public void ShowDeck(){
-        for(int i = 0; i < deck.Length; i++){
+        for(int i = 0; i < deck.Count; i++){
             deck[i].transform.position = new Vector3((i*2) - 3, -3, 0);
             Debug.Log(deck[i] + " : " + deck[i].transform.position);
         }
     }
     public void HideDeck(){
-        for(int i = 0; i < deck.Length; i++){
+        for(int i = 0; i < deck.Count; i++){
             deck[i].transform.position = new Vector3(0, -13, 0);
             Debug.Log(deck[i] + " : " + deck[i].transform.position);
         }
     }
 
-    void addCardToHand(GameObject card){
-        for(int i = 0; i < handSize; i++){
-            if(!hand[i]){
-                hand[i] = card;
-                return;
-            }
-        }
-    }
-    void removeCardFromHand(int index){
-        for(int i = 0; i < deckSize; i++){
-            if(!deck[i]){
-                deck[i] = hand[i];
-                return;
-            }
+    bool addCardToHand(GameObject card){
+        if(hand.Count < handSize){
+            hand.Add(card);
+            return true;
+        }else{
+            return false;
         }
     }
 }

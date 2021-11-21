@@ -54,4 +54,7 @@ public class Card : MonoBehaviour
     void flip(){
         type = type == CardType.Offensive ? type = CardType.Defensive : type = CardType.Offensive;
     }
+
+    public void Move(int x, int y){
+    }
 }

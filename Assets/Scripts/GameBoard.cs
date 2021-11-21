@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
-    public Player firstPlayer;
-    public Player secondPlayer;
 
-    public Card[] firstHand;
+    public GameObject firstPlayer;
+    public GameObject secondPlayer;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(firstPlayer, new Vector3(0, -33, 0), Quaternion.identity);
-        firstPlayer.ShowDeck();
+        firstPlayer.GetComponent<Player>().ShowDeck();
     }
 
     // Update is called once per frame

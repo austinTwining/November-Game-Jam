@@ -16,8 +16,8 @@ public enum Element{
 
 public class Card : MonoBehaviour
 {
-    public CardType _type = CardType.Offensive;
-    public Element _element = Element.Earth;
+    public CardType type = CardType.Offensive;
+    public Element element = Element.Earth;
     public int damage = 0;
     public int defense = 0;
     public int staminaCost = 0;
@@ -25,11 +25,16 @@ public class Card : MonoBehaviour
     public Transform transform;
     public BoxCollider2D boxCollider;
 
+    public SpriteRenderer spriteRenderer;
+    public Sprite offensiveSprite;
+    public Sprite defensiveSprite;
+
     // Start is called before the first frame update
     void Start()
     {
         transform = this.GetComponent<Transform>();
         boxCollider = this.GetComponent<BoxCollider2D>();
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -44,6 +49,9 @@ public class Card : MonoBehaviour
                 flip();
             }
         }
+
+        if(type == CardType.Offensive)spriteRenderer.sprite = offensiveSprite;
+        if(type == CardType.Defensive)spriteRenderer.sprite = defensiveSprite;
     }
 
     public void OnPointerClick(PointerEventData pointerEventData){
@@ -51,6 +59,6 @@ public class Card : MonoBehaviour
     }
 
     void flip(){
-        _type = _type == CardType.Offensive ? _type = CardType.Defensive : _type = CardType.Offensive;
+        type = type == CardType.Offensive ? type = CardType.Defensive : type = CardType.Offensive;
     }
 }

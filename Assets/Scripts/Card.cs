@@ -21,8 +21,6 @@ public class Card : MonoBehaviour
     public int damage = 0;
     public int defense = 0;
     public int staminaCost = 0;
-
-    public Transform transform;
     public BoxCollider2D boxCollider;
 
     public SpriteRenderer spriteRenderer;
@@ -32,7 +30,6 @@ public class Card : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform = this.GetComponent<Transform>();
         boxCollider = this.GetComponent<BoxCollider2D>();
         spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
@@ -40,7 +37,7 @@ public class Card : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(1)) {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
@@ -52,10 +49,6 @@ public class Card : MonoBehaviour
 
         if(type == CardType.Offensive)spriteRenderer.sprite = offensiveSprite;
         if(type == CardType.Defensive)spriteRenderer.sprite = defensiveSprite;
-    }
-
-    public void OnPointerClick(PointerEventData pointerEventData){
-        Debug.Log(" Game Object Clicked!");
     }
 
     void flip(){

@@ -28,10 +28,10 @@ public class Player : MonoBehaviour
 
             for(int i = 0; i < deck.Count; i++){
                 if(hit.collider == deck[i].GetComponent<BoxCollider2D>()){
-                    if(addCardToHand(Instantiate(deck[i]))){
+                    if(hand.Count < handSize){
+                        hand.Add(Instantiate(deck[i]));
                         Destroy(deck[i]);
                         deck.RemoveAt(i);
-                        return;
                     }
                     
                 }
